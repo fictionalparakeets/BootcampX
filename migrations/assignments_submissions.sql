@@ -14,11 +14,3 @@ CREATE TABLE assignment_submissions (
   duration INTEGER,
   submission_date DATE
 );
-
-SELECT name as student_name,
-cohorts.name as cohort_name,
-cohorts.start_date as cohort_start_date
-start_date as student_start_date
-FROM students JOIN cohorts ON cohorts.id = cohort_id
-WHERE cohorts.start_date IS NOT start_date
-ORDER BY cohorts.start_date;
