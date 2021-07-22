@@ -15,15 +15,17 @@ pool.connect().then(() => {
 
 
 pool.query(`
-SELECT students.id as student_id, students.name as name, cohorts.name as cohort
-FROM students
+SELECT DISTINCT teachers.name AS teacher, cohorts.name AS cohort
+FROM assistance_requests
+JOIN students ON student_id = students.id
 JOIN cohorts ON cohort_id = cohorts.id
-WHERE cohorts.name LIKE '%${process.argv[2]}%'
-LIMIT ${process.argv[3] || 5};
+JOIN teachers ON teacher_id = teachers.id
+WHERE cohorts.name = '${process.argv[2] || 'JUL02'}'
+ORDER BY teachers.name;
 `)
 .then(res => {
   res.rows.forEach(entry => {
-    console.log(`${entry.name} has an id of ${entry.student_id} and was in the ${entry.cohort} cohort.`);
+    console.log(`${entry.cohort}: ${entry.teacher}`);
   })
 })
 .catch(err => console.error('query error', err.stack));
